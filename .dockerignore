@@ -1,0 +1,4 @@
+dist
+agent-events.db
+*.db
+.git

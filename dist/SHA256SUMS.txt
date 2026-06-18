@@ -1,0 +1,5 @@
+768d3fd32bfdda3c5b9c9bddff819c4724bd95ac77d46938dcde4c77b06cfd50  chasqui-local-agent-1.0.0-darwin-amd64
+d2890442db4fd3b8ba341540f84b9f41e29497fd8b84ffce3d26ea7be0eb4337  chasqui-local-agent-1.0.0-darwin-arm64
+21a1ec76bb3485c538b9139981f908dbb31fe963f193f99074ead5b65dce60d7  chasqui-local-agent-1.0.0-linux-amd64
+debff65fb6c4986d69a59eff65d91ef2f6680c78608dad30ca2a9dc7a95b04f5  chasqui-local-agent-1.0.0-linux-arm64
+3d3330fdd4425dcd4b32fafeda08497ff6356432a8bfc5c621c5fd0b9c891c31  chasqui-local-agent-1.0.0-windows-amd64.exe

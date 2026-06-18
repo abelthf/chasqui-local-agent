@@ -1,0 +1,19 @@
+services:
+  chasqui-local-agent:
+    build: .
+    restart: unless-stopped
+    environment:
+      CHASQUI_BASE_URL: ${CHASQUI_BASE_URL:-https://chasqui.inkalab.org.pe/api}
+      CHASQUI_AGENT_TOKEN: ${CHASQUI_AGENT_TOKEN}
+      CHASQUI_API_KEY: ${CHASQUI_API_KEY:-}
+      CHASQUI_LOCAL_CALLBACK_URL: ${CHASQUI_LOCAL_CALLBACK_URL:-http://host.docker.internal:5051/inbound}
+      CHASQUI_AGENT_ID: ${CHASQUI_AGENT_ID:-local-agent}
+      CHASQUI_AGENT_SECRET: ${CHASQUI_AGENT_SECRET:-}
+      CHASQUI_AGENT_TRANSPORT: ${CHASQUI_AGENT_TRANSPORT:-poll}
+      CHASQUI_AGENT_DB: /data/agent-events.db
+    ports:
+      - "5050:5050"
+    volumes:
+      - agent_data:/data
+volumes:
+  agent_data:
