@@ -29,7 +29,7 @@ Para recepcion inmediata usa `CHASQUI_AGENT_TRANSPORT=websocket`. Para fallback 
 - `CHASQUI_AGENT_ID`: identificador de instancia.
 - `CHASQUI_AGENT_SECRET`: secreto opcional enviado al callback local.
 - `CHASQUI_AGENT_DB`: ruta SQLite local.
-- `CHASQUI_AGENT_LISTEN_ADDR`: direccion de escucha local, por defecto `:5050`.
+- `CHASQUI_AGENT_LISTEN_ADDR`: direccion de escucha local, por defecto `127.0.0.1:5050`.
 
 ## Opcion 1: binario precompilado
 
@@ -95,6 +95,7 @@ CHASQUI_LOCAL_CALLBACK_URL=http://host.docker.internal:5051/inbound
 CHASQUI_AGENT_ID=local-agent
 CHASQUI_AGENT_SECRET=
 CHASQUI_AGENT_TRANSPORT=websocket
+CHASQUI_AGENT_LISTEN_ADDR=0.0.0.0:5050
 ```
 
 Levanta el agente:
@@ -129,7 +130,7 @@ Run:
 
 ```bash
 docker run -d --name chasqui-local-agent \
-  -p 5050:5050 \
+  -p 127.0.0.1:5050:5050 \
   -v chasqui_agent_data:/data \
   -e CHASQUI_BASE_URL="https://chasqui.inkalab.org.pe/api" \
   -e CHASQUI_AGENT_TOKEN="agtkn_..." \
@@ -137,6 +138,7 @@ docker run -d --name chasqui-local-agent \
   -e CHASQUI_AGENT_TRANSPORT="websocket" \
   -e CHASQUI_LOCAL_CALLBACK_URL="http://host.docker.internal:5051/inbound" \
   -e CHASQUI_AGENT_DB="/data/agent-events.db" \
+  -e CHASQUI_AGENT_LISTEN_ADDR="0.0.0.0:5050" \
   chasqui-local-agent:1.0.0
 ```
 
@@ -152,9 +154,38 @@ export CHASQUI_LOCAL_CALLBACK_URL="http://localhost:5051/inbound"
 ./chasqui-local-agent
 ```
 
+
+## Ejemplos de aplicacion local
+
+Incluye ejemplos listos para entender como recibir eventos y enviar respuestas:
+
+- [examples/python](examples/python): servidor local Python sin dependencias externas.
+- [examples/node](examples/node): servidor local Node.js sin paquetes externos.
+
+Flujo recomendado para probar:
+
+Terminal 1, levanta tu aplicacion local:
+
+```bash
+cd examples/python
+python3 app.py
+```
+
+Terminal 2, levanta el agente apuntando al callback local:
+
+```bash
+CHASQUI_AGENT_TOKEN="agtkn_..." \
+CHASQUI_API_KEY="sk_..." \
+CHASQUI_AGENT_TRANSPORT="websocket" \
+CHASQUI_LOCAL_CALLBACK_URL="http://localhost:5051/inbound" \
+./chasqui-local-agent
+```
+
+Cuando Chasqui Cloud reciba un mensaje entrante, el agente hara `POST` a `http://localhost:5051/inbound`. La aplicacion de ejemplo procesara el evento y respondera llamando a `http://localhost:5050/send`.
+
 ## API local
 
-El agente escucha por defecto en `http://localhost:5050`.
+El agente escucha por defecto solo en loopback: `http://127.0.0.1:5050`. En Docker se publica tambien solo en loopback del host.
 
 - `GET /health`: salud basica.
 - `GET /status`: estado local, version y eventos pendientes locales.

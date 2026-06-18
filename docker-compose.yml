@@ -11,8 +11,9 @@ services:
       CHASQUI_AGENT_SECRET: ${CHASQUI_AGENT_SECRET:-}
       CHASQUI_AGENT_TRANSPORT: ${CHASQUI_AGENT_TRANSPORT:-poll}
       CHASQUI_AGENT_DB: /data/agent-events.db
+      CHASQUI_AGENT_LISTEN_ADDR: 0.0.0.0:5050
     ports:
-      - "5050:5050"
+      - "127.0.0.1:5050:5050"
     volumes:
       - agent_data:/data
 volumes:

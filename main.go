@@ -108,7 +108,7 @@ func loadConfig() Config {
 		CallbackURL:  env("CHASQUI_LOCAL_CALLBACK_URL", "http://localhost:5051/inbound"),
 		AgentID:      env("CHASQUI_AGENT_ID", host),
 		AgentSecret:  os.Getenv("CHASQUI_AGENT_SECRET"),
-		ListenAddr:   env("CHASQUI_AGENT_LISTEN_ADDR", ":5050"),
+		ListenAddr:   env("CHASQUI_AGENT_LISTEN_ADDR", "127.0.0.1:5050"),
 		DBPath:       env("CHASQUI_AGENT_DB", "agent-events.db"),
 		UseWebSocket: env("CHASQUI_AGENT_TRANSPORT", "poll") == "websocket",
 	}
